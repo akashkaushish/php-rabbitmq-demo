@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  producer:
+    build: ./app1-producer
+    volumes:
+      - ./app1-producer:/app
+    depends_on:
+      - rabbitmq
+
+  consumer:
+    build: ./app2-consumer
+    volumes:
+      - ./app2-consumer:/app
+    depends_on:
+      - rabbitmq
